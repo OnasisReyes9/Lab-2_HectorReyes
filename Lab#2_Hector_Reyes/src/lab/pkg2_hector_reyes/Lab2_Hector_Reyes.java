@@ -31,8 +31,10 @@ public class Lab2_Hector_Reyes {
         ArrayList empleado = new ArrayList();
         String genero = "";
         String cargo = "";
+        int contGerentes = 0;
+        String[] cargos = {"Gerente", "Seguridad", "Aseado"};
         while (continuear == true) {
-            //while (logIn == false) {
+            while (logIn == false) {
                 System.out.print("---MENÚ---\n"
                         + "1. Registro de Empleados\n"
                         + "2. Despedir Empleados\n"
@@ -43,8 +45,10 @@ public class Lab2_Hector_Reyes {
                         + "7. RANDOM\n"
                         + "-> Ingrese su opción: ");
                 opcion = leer.nextInt();
-                /*if (opcion != 3) {
+                System.out.println("");
+                if (opcion != 3) {
                     System.out.println("Debe ingresar mediante la opción 3");
+                    System.out.println("");
                 } else {
                     System.out.print("Ingrese Usuario: ");
                     usuario = leer.next();
@@ -52,12 +56,25 @@ public class Lab2_Hector_Reyes {
                     contraseña = leer.next();
                     if ("leobanegas".equals(usuario) && "99".equals(contraseña)) {
                         logIn = true;
+                        System.out.println("");
                         System.out.println("Has ingresado exitosamente!");
                     } else {
                         System.out.println("Usuario o contraseña incorrecto");
                     }
                 }//fin else*/
-            //}//fin while login
+            }//fin while login
+            System.out.println("");
+            System.out.print("---MENÚ---\n"
+                    + "1. Registro de Empleados\n"
+                    + "2. Despedir Empleados\n"
+                    + "3. Log In\n"
+                    + "4. Ascender Cajero\n"
+                    + "5. Listar Empleados\n"
+                    + "6. Modificar Empleado\n"
+                    + "7. RANDOM\n"
+                    + "-> Ingrese su opción: ");
+            opcion = leer.nextInt();
+            System.out.println("");
             switch (opcion) {
                 case 1:
                     System.out.print("Ingrese Nombre: ");
@@ -99,59 +116,168 @@ public class Lab2_Hector_Reyes {
                     }
                     System.out.print("Ingrese Título: ");
                     String titulo = leer.next();
-                    System.out.print("Seleccione el Cargo: "
+                    System.out.print("Seleccione el Cargo:\n "
                             + "1. Gerente\n"
-                            + "2. Aseadores\n"
-                            + "3. Cajeros\n"
-                            + "4. Seguridad\n"+
-                            "-> Ingrese opcion: ");
+                            + "2. Aseador\n"
+                            + "3. Cajero\n"
+                            + "4. Seguridad\n"
+                            + "-> Ingrese opcion: ");
                     int opCargo = leer.nextInt();
                     while (opCargo < 1 && opCargo > 4) {
-                        System.out.print("Seleccione un cargo válido\n: "
+                        System.out.print("Seleccione un cargo válido:\n "
                                 + "1. Gerente\n"
-                                + "2. Aseadores\n"
-                                + "3. Cajeros\n"
-                                + "4. Seguridad\n"+
-                                "-> Ingrese opcion: ");
+                                + "2. Aseador\n"
+                                + "3. Cajero\n"
+                                + "4. Seguridad\n"
+                                + "-> Ingrese opcion: ");
                         opCargo = leer.nextInt();
                     }
                     switch (opCargo) {
                         case 1:
                             cargo = "Gerente";
+                            contGerentes++;
                             break;
                         case 2:
-                            cargo = "Aseadores";
+                            cargo = "Aseador";
                             break;
                         case 3:
-                            cargo = "Cajeros";
+                            cargo = "Cajero";
                             break;
                         case 4:
                             cargo = "Seguridad";
                             break;
-                    }
+                    }//fin switch
                     empleado.add(new Empleados(nombre, apellido, color, edad, genero, altura, peso, titulo, cargo));
+                    System.out.println("Se a agregado un empleado.");
                     break;
                 case 2:
+                    if (empleado.size() == 0) {
+                        System.out.println("No hay empleados para despedir");
+                    } else {
+                        System.out.println("");
+                        for (Object o : empleado) {
+                            System.out.println(empleado.indexOf(o) + ". " + o);
+                        }
+                        System.out.println("");
+                        System.out.print("Ingrese posición del empleado a despedir: ");
+                        int despedir = leer.nextInt();
+                        empleado.remove(despedir);
+                        System.out.println("");
+                        System.out.println("Se ha despedido un empleado.");
+                    }
                     break;
                 case 3:
                     System.out.println("Ya has ingresado.");
                     break;
                 case 4:
+                    if (contGerentes < 3) {
+                        if (empleado.size() == 0) {
+                            System.out.println("No hay empleados para ascender");
+                        } else {
+                            System.out.println("");
+                            for (Object o : empleado) {
+                                System.out.println(empleado.indexOf(o) + ". " + o);
+                            }
+                            System.out.print("Ingrese posicion del cajero a ascender: ");
+                            int ascender = leer.nextInt();
+                            if (((Empleados) empleado.get(ascender)).getCargo().equals("Cajero")) {
+                                ((Empleados) empleado.get(ascender)).setCargo("Gerente");
+                                contGerentes++;
+                            } else {
+                                System.out.println("Solo puede ascender cajeros.");
+                            }
+                        }
+                    } else {
+                        System.out.println("Solo pueden existir 3 gerentes");
+                    }
                     break;
                 case 5:
-                    String imprimir = "";
-                    for (Object o : empleado) {
-                        System.out.println(empleado.indexOf(o) + ". " + o);
+                    if (empleado.size() == 0) {
+                        System.out.println("No hay empleados para mostrar");
+                    } else {
+                        System.out.println("Gerente");
+                        for (int i = 0; i < empleado.size(); i++) {
+                            if (((Empleados) empleado.get(i)).getCargo().equals("Gerente")) {
+                                System.out.println(empleado.indexOf(i) + "- " + empleado.get(i) + "\n");
+                            }
+                        }
+                        System.out.println("Aseador");
+                        for (int i = 0; i < empleado.size(); i++) {
+                            if (((Empleados) empleado.get(i)).getCargo().equals("Aseador")) {
+                                System.out.println(empleado.indexOf(i) + "- " + empleado.get(i) + "\n");
+                            }
+                        }
+                        System.out.println("Seguridad");
+                        for (int i = 0; i < empleado.size(); i++) {
+                            if (((Empleados) empleado.get(i)).getCargo().equals("Seguridad")) {
+                                System.out.println(empleado.indexOf(i) + "- " + empleado.get(i) + "\n");
+                            }
+                        }
+                        System.out.println("Cajero");
+                        for (int i = 0; i < empleado.size(); i++) {
+                            if (((Empleados) empleado.get(i)).getCargo().equals("Cajero")) {
+                                System.out.println(empleado.indexOf(i) + "- " + empleado.get(i) + "\n");
+                            }
+                        }
+                        System.out.println("");
                     }
                     break;
                 case 6:
+                    if (empleado.size() == 0) {
+                        System.out.println("No hay empleados para modificar");
+                        System.out.println("");
+                    } else {
+                        for (Object o : empleado) {
+                            System.out.println(empleado.indexOf(o) + ". " + o);
+                        }
+                        System.out.println("");
+                        System.out.print("Ingrese posición del empleado a modificar el cargo: ");
+                        int modificar = leer.nextInt();
+                        System.out.print("Seleccione el Cargo nuevo:\n "
+                                + "1. Gerente\n"
+                                + "2. Aseador\n"
+                                + "3. Cajero\n"
+                                + "4. Seguridad\n"
+                                + "-> Ingrese opcion: ");
+                        opCargo = leer.nextInt();
+                        while (opCargo < 1 && opCargo > 4) {
+                            System.out.print("Seleccione un cargo válido\n: "
+                                    + "1. Gerente\n"
+                                    + "2. Aseador\n"
+                                    + "3. Cajero\n"
+                                    + "4. Seguridad\n"
+                                    + "-> Ingrese opcion: ");
+                            opCargo = leer.nextInt();
+                        }
+                        switch (opCargo) {
+                            case 1:
+                                cargo = "Gerente";
+                                contGerentes++;
+                                break;
+                            case 2:
+                                cargo = "Aseador";
+                                break;
+                            case 3:
+                                cargo = "Cajero";
+                                break;
+                            case 4:
+                                cargo = "Seguridad";
+                                break;
+                        }//fin switch
+                        ((Empleados) empleado.get(modificar)).setCargo(cargo);
+                    }
+                    System.out.println("");
+                    System.out.println("Se ha modificado el cargo de un empleado");
                     break;
                 case 7:
+                    System.out.println("Ingrese cantidad de empleados a cambiar: ");
+                    int cant = leer.nextInt();
+
                     break;
                 default:
                     System.out.println("La opcion no existe.");
             }
-
+            //System.out.println("");
         }//fin while menú
 
     }

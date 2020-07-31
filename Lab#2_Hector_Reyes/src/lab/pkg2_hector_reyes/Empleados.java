@@ -16,7 +16,7 @@ public class Empleados {
     private String nombre;
     private String apellido;
     private String colFav;
-    int edad;
+    private int edad;
     private String genero;
     private double altura;
     private double peso;
