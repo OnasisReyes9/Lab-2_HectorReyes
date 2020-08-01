@@ -390,7 +390,7 @@ public class Lab2_Hector_Reyes {
                         int cant = leer.nextInt();
                         while (cant < 1 || cant > empleado.size()) {
                             System.out.println("Ingrese cantidad válida");
-                            System.out.println("Ingrese cantidad de empleados a cambiar cargo: ");
+                            System.out.print("Ingrese cantidad de empleados a cambiar cargo: ");
                             cant = leer.nextInt();
                         }
                         if (cant < empleado.size()) {
@@ -402,7 +402,7 @@ public class Lab2_Hector_Reyes {
                                 while (acum.contains(posRandom + "")) {
                                     posRandom = 0 + ran.nextInt(empleado.size());
                                 }
-                                acum = posRandom + "";
+                                acum += posRandom + "";
                                 cargoRandom = 1 + ran.nextInt(4);
                                 while (revision == false) {
                                     cargoRandom = 1 + ran.nextInt(4);
