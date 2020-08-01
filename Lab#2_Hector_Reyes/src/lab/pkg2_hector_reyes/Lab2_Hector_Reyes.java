@@ -7,6 +7,7 @@ package lab.pkg2_hector_reyes;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 import javax.swing.JColorChooser;
 
@@ -20,7 +21,7 @@ public class Lab2_Hector_Reyes {
      * @param args the command line arguments
      */
     static Scanner leer = new Scanner(System.in);
-    
+    static Random ran = new Random();
 
     public static void main(String[] args) {
 
@@ -33,7 +34,6 @@ public class Lab2_Hector_Reyes {
         String genero = "";
         String cargo = "";
         int contGerentes = 0;
-        String[] cargos = {"Gerente", "Seguridad", "Aseado"};
         while (continuear == true) {
             while (logIn == false) {
                 System.out.print("---MENÚ---\n"
@@ -124,7 +124,11 @@ public class Lab2_Hector_Reyes {
                             + "4. Seguridad\n"
                             + "-> Ingrese opcion: ");
                     int opCargo = leer.nextInt();
-                    while (opCargo < 1 && opCargo > 4) {
+                    while (opCargo < 1 && opCargo > 4
+                            || contGerentes == 3) {
+                        if (contGerentes == 3) {
+                            System.out.println("Límite de Gerentes Alcanzado");
+                        }
                         System.out.print("Seleccione un cargo válido:\n"
                                 + "1. Gerente\n"
                                 + "2. Aseador\n"
@@ -162,6 +166,14 @@ public class Lab2_Hector_Reyes {
                         System.out.println("");
                         System.out.print("Ingrese posición del empleado a despedir: ");
                         int despedir = leer.nextInt();
+                        while (despedir < 0 && despedir > empleado.size() - 1) {
+                            System.out.println("Ingrese una posicion válida");
+                            System.out.print("Ingrese posición del empleado a despedir: ");
+                            despedir = leer.nextInt();
+                        }
+                        if (((Empleados) empleado.get(despedir)).getCargo().equals("Gerente")) {
+                            contGerentes--;
+                        }
                         empleado.remove(despedir);
                         System.out.println("");
                         System.out.println("Se ha despedido un empleado.");
@@ -181,6 +193,11 @@ public class Lab2_Hector_Reyes {
                             }
                             System.out.print("Ingrese posicion del cajero a ascender: ");
                             int ascender = leer.nextInt();
+                            while (ascender < 0 && ascender > empleado.size() - 1) {
+                                System.out.println("Ingrese una posicion válida");
+                                System.out.print("Ingrese posición del empleado a despedir: ");
+                                ascender = leer.nextInt();
+                            }
                             if (((Empleados) empleado.get(ascender)).getCargo().equals("Cajero")) {
                                 ((Empleados) empleado.get(ascender)).setCargo("Gerente");
                                 contGerentes++;
@@ -189,7 +206,7 @@ public class Lab2_Hector_Reyes {
                             }
                         }
                     } else {
-                        System.out.println("Solo pueden existir 3 gerentes");
+                        System.out.println("Límite de Gerentes Alcanzado");
                     }
                     break;
                 case 5:
@@ -203,7 +220,7 @@ public class Lab2_Hector_Reyes {
                                     System.out.println("Gerente");
                                     cont++;
                                 }
-                              System.out.println(empleado.indexOf(empleado.get(i)) + ". " + empleado.get(i) + "\n");
+                                System.out.println(empleado.indexOf(empleado.get(i)) + ". " + empleado.get(i) + "\n");
                             }
                         }
                         cont = 0;
@@ -223,7 +240,7 @@ public class Lab2_Hector_Reyes {
                                     System.out.println("Seguridad");
                                     cont++;
                                 }
-                              System.out.println(empleado.indexOf(empleado.get(i)) + ". " + empleado.get(i) + "\n");
+                                System.out.println(empleado.indexOf(empleado.get(i)) + ". " + empleado.get(i) + "\n");
                             }
                         }
                         cont = 0;
@@ -233,10 +250,9 @@ public class Lab2_Hector_Reyes {
                                     System.out.println("Cajero");
                                     cont++;
                                 }
-                             System.out.println(empleado.indexOf(empleado.get(i)) + ". " + empleado.get(i) + "\n");
+                                System.out.println(empleado.indexOf(empleado.get(i)) + ". " + empleado.get(i) + "\n");
                             }
                         }
-                        System.out.println("");
                     }
                     break;
                 case 6:
@@ -249,7 +265,6 @@ public class Lab2_Hector_Reyes {
                         System.out.println("");
                         System.out.print("Ingrese posición del empleado a modificar: ");
                         int pos = leer.nextInt();
-
                         System.out.print("1. Nombre\n"
                                 + "2. Apellido\n"
                                 + "3. Color Favorito\n"
@@ -259,7 +274,7 @@ public class Lab2_Hector_Reyes {
                                 + "7. Peso\n"
                                 + "8. Título\n"
                                 + "9. Cargo\n"
-                                + "Ingrese que desea modificar");
+                                + "Ingrese que desea modificar: ");
                         int modificar = leer.nextInt();
                         switch (modificar) {
                             case 1:
@@ -365,16 +380,61 @@ public class Lab2_Hector_Reyes {
                     }
                     break;
                 case 7:
+                    String acum = "";
+                    int posRandom = 0;
+                    int cargoRandom = 0;
                     if (empleado.size() == 0) {
-                        System.out.println("No hay empleados para modificar");
+                        System.out.println("No hay empleados");
                     } else {
-                        System.out.println("Ingrese cantidad de empleados a cambiar cargo: ");
+                        System.out.print("Ingrese cantidad de empleados a cambiar cargo: ");
                         int cant = leer.nextInt();
+                        while (cant < 1 || cant > empleado.size()) {
+                            System.out.println("Ingrese cantidad válida");
+                            System.out.println("Ingrese cantidad de empleados a cambiar cargo: ");
+                            cant = leer.nextInt();
+                        }
                         if (cant < empleado.size()) {
                             System.out.println("No hay tal cantidad de empleados");
                         } else {
-                            
-                        }
+                            boolean revision = false;
+                            while (cant > 0) {
+                                posRandom = 0 + ran.nextInt(empleado.size());
+                                while (acum.contains(posRandom + "")) {
+                                    posRandom = 0 + ran.nextInt(empleado.size());
+                                }
+                                acum = posRandom + "";
+                                cargoRandom = 1 + ran.nextInt(4);
+                                while (revision == false) {
+                                    cargoRandom = 1 + ran.nextInt(4);
+                                    if (((Empleados) empleado.get(posRandom)).getCargo() == "Gerente"
+                                            && cargoRandom == 1) {
+                                    } else if (((Empleados) empleado.get(posRandom)).getCargo() == "Aseador"
+                                            && cargoRandom == 2) {
+                                    } else if (((Empleados) empleado.get(posRandom)).getCargo() == "Seguridad"
+                                            && cargoRandom == 3) {
+                                    } else if (((Empleados) empleado.get(posRandom)).getCargo() == "Cajero"
+                                            && cargoRandom == 4) {
+                                    } else {
+                                        revision = true;
+                                    }
+                                }//fin while
+                                switch (cargoRandom) {
+                                    case 1:
+                                        ((Empleados) empleado.get(posRandom)).setCargo("Gerente");
+                                        break;
+                                    case 2:
+                                        ((Empleados) empleado.get(posRandom)).setCargo("Aseador");
+                                        break;
+                                    case 3:
+                                        ((Empleados) empleado.get(posRandom)).setCargo("Seguridad");
+                                        break;
+                                    case 4:
+                                        ((Empleados) empleado.get(posRandom)).setCargo("Cajero");
+                                        break;
+                                }
+                                cant--;
+                            }//fin while
+                        }//fin else
                     }
                     break;
                 default:
